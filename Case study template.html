@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My case study</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#EEF3F2;--card:#FFFFFF;--ink:#1B2A2E;--mute:#5E7176;--line:#D3DEDD;--acc:#2E6B67;--acc-ink:#FFFFFF;--soft:#DDEBE9;--warn:#9A5B1E;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10191B;--card:#182427;--ink:#E6EFEE;--mute:#93A8AC;--line:#2B3C40;--acc:#6FC1B9;--acc-ink:#0D1B1C;--soft:#21393B;--warn:#E0A869;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10191B;--card:#182427;--ink:#E6EFEE;--mute:#93A8AC;--line:#2B3C40;--acc:#6FC1B9;--acc-ink:#0D1B1C;--soft:#21393B;--warn:#E0A869;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 80px}
+h1{font:700 30px/1.15 Fraunces,Georgia,serif;margin:8px 0 6px;letter-spacing:-.01em}
+h2{font:600 21px/1.2 Fraunces,Georgia,serif;margin:0}
+.lead{color:var(--mute);margin:0 0 16px;max-width:60ch}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 12px}
+.track{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.fill{height:100%;width:0;background:var(--acc);transition:width .35s ease}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-top:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
+.head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);flex:none}
+.card.done .dot{background:var(--acc);border-color:var(--acc)}
+.hint{color:var(--mute);font-size:14px;margin:0 0 14px}
+label{display:block;font-weight:500;font-size:14px;margin:12px 0 5px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+textarea{min-height:92px;resize:vertical}
+input:focus,textarea:focus,button:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:7px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink);font-weight:600}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.step{display:grid;grid-template-columns:116px 1fr 36px;gap:8px;margin-bottom:8px;align-items:start}
+.step textarea{min-height:56px}
+.x{border:0;background:transparent;color:var(--mute);font-size:22px;cursor:pointer;line-height:1;padding:6px}
+.btn{font:inherit;font-weight:600;border:1px solid var(--acc);background:transparent;color:var(--acc);border-radius:9px;padding:9px 14px;cursor:pointer}
+.btn.main{background:var(--acc);color:var(--acc-ink)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.stat{background:var(--soft);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font:700 28px/1.1 Fraunces,Georgia,serif}
+.stat span{font-size:13px;color:var(--mute)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+#out{display:none;margin-top:12px;min-height:200px;font-size:14px}
+#toast{min-height:20px;font-size:14px;color:var(--acc);margin-top:8px}
+.warn{color:var(--warn)}
+@media (max-width:480px){.step{grid-template-columns:1fr 36px}.step input{grid-column:1/2}.step textarea{grid-column:1/2}.step .x{grid-row:1;grid-column:2}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My case study</h1>
+  <p class="lead">Fill in each card as you work. Your answers save on this device while you type. When it’s done, copy it as text and paste it into your portfolio or CV.</p>
+  <div class="bar">
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="meta"><span id="pcount">0 of 6 sections done</span><span>Saved on this device</span></div>
+  </div>
+
+  <section class="card" data-sec="context">
+    <div class="head"><span class="dot"></span><h2>Context</h2></div>
+    <p class="hint">Who is the business and what did they need? Two or three sentences is enough.</p>
+    <label for="client">Business name</label>
+    <input id="client" data-k="client" placeholder="e.g. Juniperus Landscaping">
+    <label for="need">What they needed</label>
+    <textarea id="need" data-k="need" placeholder="e.g. More requests for garden design quotes in spring."></textarea>
+  </section>
+
+  <section class="card" data-sec="goal">
+    <div class="head"><span class="dot"></span><h2>Goal</h2></div>
+    <p class="hint">Pick one measurable target. A clear goal makes the results easy to judge.</p>
+    <label>Type of result</label>
+    <div class="chips" data-k="goalType">
+      <button class="chip" type="button">Leads</button><button class="chip" type="button">Calls</button><button class="chip" type="button">Bookings</button><button class="chip" type="button">Sales</button><button class="chip" type="button">Website visits</button>
+    </div>
+    <label for="goalText">Target in numbers</label>
+    <input id="goalText" data-k="goalText" placeholder="e.g. 20 quote requests in 4 weeks at under 25 RON each">
+  </section>
+
+  <section class="card" data-sec="setup">
+    <div class="head"><span class="dot"></span><h2>Setup</h2></div>
+    <p class="hint">What you built before the campaign went live.</p>
+    <label>Platform</label>
+    <div class="chips" data-k="platform" data-multi="1">
+      <button class="chip" type="button">Meta Ads</button><button class="chip" type="button">Google Ads</button><button class="chip" type="button">GA4</button><button class="chip" type="button">Meta pixel</button>
+    </div>
+    <div class="row">
+      <div><label for="budget">Total budget</label><input id="budget" data-k="budget" inputmode="decimal" placeholder="e.g. 300"></div>
+      <div><label for="dur">Duration</label><input id="dur" data-k="dur" placeholder="e.g. 4 weeks"></div>
+    </div>
+    <label for="aud">Audience and targeting</label>
+    <textarea id="aud" data-k="aud" placeholder="Location, age range, interests, keywords…"></textarea>
+    <label for="track">Tracking set up</label>
+    <textarea id="track" data-k="track" placeholder="e.g. Form submit tracked as a conversion in GA4 and Meta."></textarea>
+  </section>
+
+  <section class="card" data-sec="did">
+    <div class="head"><span class="dot"></span><h2>What I did</h2></div>
+    <p class="hint">Add each key decision or change with its date, and say why you made it.</p>
+    <div id="steps"></div>
+    <button class="btn" type="button" id="addStep">Add a step</button>
+  </section>
+
+  <section class="card" data-sec="results">
+    <div class="head"><span class="dot"></span><h2>Results</h2></div>
+    <p class="hint">Enter your real numbers. The cost and click rate fill in by themselves.</p>
+    <div class="row">
+      <div><label for="spend">Amount spent</label><input id="spend" data-k="spend" inputmode="decimal" placeholder="0"></div>
+      <div><label for="cur">Currency</label><input id="cur" data-k="cur" placeholder="RON"></div>
+      <div><label for="impr">Impressions</label><input id="impr" data-k="impr" inputmode="numeric" placeholder="0"></div>
+      <div><label for="clicks">Clicks</label><input id="clicks" data-k="clicks" inputmode="numeric" placeholder="0"></div>
+      <div><label for="conv">Conversions</label><input id="conv" data-k="conv" inputmode="numeric" placeholder="0"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="sCpr">–</b><span>Cost per conversion</span></div>
+      <div class="stat"><b id="sCtr">–</b><span>Click rate (CTR)</span></div>
+    </div>
+    <label for="shot">Screenshot or report link</label>
+    <input id="shot" data-k="shot" placeholder="Paste a link to your dashboard or screenshot">
+  </section>
+
+  <section class="card" data-sec="lessons">
+    <div class="head"><span class="dot"></span><h2>Lessons</h2></div>
+    <p class="hint">This is what employers read most closely. Be honest and specific.</p>
+    <label for="worked">What worked</label>
+    <textarea id="worked" data-k="worked"></textarea>
+    <label for="didnt">What didn’t work</label>
+    <textarea id="didnt" data-k="didnt"></textarea>
+    <label for="next">What I’d do next time</label>
+    <textarea id="next" data-k="next"></textarea>
+  </section>
+
+  <div class="actions">
+    <button class="btn main" type="button" id="copy">Copy as text</button>
+    <button class="btn" type="button" id="reset">Clear everything</button>
+  </div>
+  <div id="toast" role="status"></div>
+  <textarea id="out" readonly aria-label="Case study text"></textarea>
+</div>
+
+<script>
+(function(){
+var KEY="case-study-template-v1", S={};
+try{S=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){S={}}
+if(!Array.isArray(S.steps)||!S.steps.length){S.steps=[{d:"",t:""}]}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function num(v){var n=parseFloat(String(v||"").replace(",","."));return isNaN(n)?0:n}
+function has(v){return v&&String(v).trim().length>0}
+
+$$("[data-k]").forEach(function(el){
+  var k=el.getAttribute("data-k");
+  if(el.classList.contains("chips")){
+    var cur=S[k]||(el.hasAttribute("data-multi")?[]:"");
+    $$(".chip",el).forEach(function(b){
+      var on=Array.isArray(cur)?cur.indexOf(b.textContent)>-1:cur===b.textContent;
+      b.setAttribute("aria-pressed",on?"true":"false");
+      b.addEventListener("click",function(){
+        if(el.hasAttribute("data-multi")){
+          var a=Array.isArray(S[k])?S[k].slice():[],i=a.indexOf(b.textContent);
+          if(i>-1)a.splice(i,1);else a.push(b.textContent);
+          S[k]=a;b.setAttribute("aria-pressed",i>-1?"false":"true");
+        }else{
+          var same=S[k]===b.textContent;S[k]=same?"":b.textContent;
+          $$(".chip",el).forEach(function(c){c.setAttribute("aria-pressed",(!same&&c===b)?"true":"false")});
+        }
+        update();
+      });
+    });
+  }else{
+    if(S[k])el.value=S[k];
+    el.addEventListener("input",function(){S[k]=el.value;update()});
+  }
+});
+
+function renderSteps(){
+  var box=$("#steps");box.innerHTML="";
+  S.steps.forEach(function(s,i){
+    var r=document.createElement("div");r.className="step";
+    var d=document.createElement("input");d.placeholder="Date";d.value=s.d||"";d.setAttribute("aria-label","Date of step "+(i+1));
+    var t=document.createElement("textarea");t.placeholder="What I did and why";t.value=s.t||"";t.setAttribute("aria-label","Step "+(i+1));
+    var x=document.createElement("button");x.type="button";x.className="x";x.textContent="×";x.setAttribute("aria-label","Remove step "+(i+1));
+    d.addEventListener("input",function(){s.d=d.value;update()});
+    t.addEventListener("input",function(){s.t=t.value;update()});
+    x.addEventListener("click",function(){S.steps.splice(i,1);if(!S.steps.length)S.steps.push({d:"",t:""});renderSteps();update()});
+    r.appendChild(d);r.appendChild(t);r.appendChild(x);box.appendChild(r);
+  });
+}
+$("#addStep").addEventListener("click",function(){S.steps.push({d:"",t:""});renderSteps();update();var a=$$("#steps textarea");a[a.length-1].focus()});
+
+function fmt(n){return (Math.round(n*100)/100).toLocaleString("en-US")}
+function update(){
+  var done={
+    context:has(S.client)&&has(S.need),
+    goal:has(S.goalType)&&has(S.goalText),
+    setup:(S.platform&&S.platform.length>0)&&(has(S.budget)||has(S.aud)),
+    did:S.steps.some(function(s){return has(s.t)}),
+    results:num(S.spend)>0&&(num(S.clicks)>0||num(S.conv)>0),
+    lessons:has(S.worked)||has(S.didnt)||has(S.next)
+  },c=0;
+  $$("[data-sec]").forEach(function(sec){var ok=!!done[sec.getAttribute("data-sec")];if(ok)c++;sec.classList.toggle("done",ok)});
+  $("#fill").style.width=(c/6*100)+"%";
+  $("#pcount").textContent=c+" of 6 sections done";
+  var cur=has(S.cur)?S.cur.trim():"RON";
+  $("#sCpr").textContent=(num(S.conv)>0&&num(S.spend)>0)?fmt(num(S.spend)/num(S.conv))+" "+cur:"–";
+  $("#sCtr").textContent=(num(S.impr)>0&&num(S.clicks)>0)?fmt(num(S.clicks)/num(S.impr)*100)+"%":"–";
+  save();
+}
+
+function build(){
+  var L=[],cur=has(S.cur)?S.cur.trim():"RON";
+  function add(h,v){if(has(v))L.push(h+"\n"+String(v).trim()+"\n")}
+  L.push("CASE STUDY: "+(has(S.client)?S.client.trim():"Untitled")+"\n");
+  add("Context",S.need);
+  add("Goal",[S.goalType,S.goalText].filter(has).join(": "));
+  add("Setup",[
+    (S.platform&&S.platform.length)?"Platform: "+S.platform.join(", "):"",
+    has(S.budget)?"Budget: "+S.budget+" "+cur:"",
+    has(S.dur)?"Duration: "+S.dur:"",
+    has(S.aud)?"Audience: "+S.aud:"",
+    has(S.track)?"Tracking: "+S.track:""
+  ].filter(has).join("\n"));
+  add("What I did",S.steps.filter(function(s){return has(s.t)}).map(function(s){return "- "+(has(s.d)?s.d.trim()+": ":"")+s.t.trim()}).join("\n"));
+  var res=[];
+  if(num(S.spend)>0)res.push("Spend: "+S.spend+" "+cur);
+  if(num(S.impr)>0)res.push("Impressions: "+S.impr);
+  if(num(S.clicks)>0)res.push("Clicks: "+S.clicks);
+  if(num(S.conv)>0)res.push("Conversions: "+S.conv);
+  if(num(S.conv)>0&&num(S.spend)>0)res.push("Cost per conversion: "+fmt(num(S.spend)/num(S.conv))+" "+cur);
+  if(num(S.impr)>0&&num(S.clicks)>0)res.push("CTR: "+fmt(num(S.clicks)/num(S.impr)*100)+"%");
+  if(has(S.shot))res.push("Proof: "+S.shot.trim());
+  add("Results",res.join("\n"));
+  add("What worked",S.worked);add("What didn’t work",S.didnt);add("Next time",S.next);
+  return L.join("\n");
+}
+$("#copy").addEventListener("click",function(){
+  var txt=build(),out=$("#out"),toast=$("#toast");
+  out.value=txt;out.style.display="block";
+  try{
+    navigator.clipboard.writeText(txt).then(function(){toast.textContent="Copied. Paste it into your portfolio."},function(){out.select();toast.textContent="Select the text below and copy it."});
+  }catch(e){out.select();toast.textContent="Select the text below and copy it."}
+});
+var armed=false;
+$("#reset").addEventListener("click",function(){
+  var b=$("#reset");
+  if(!armed){armed=true;b.textContent="Tap again to clear";b.classList.add("warn");setTimeout(function(){armed=false;b.textContent="Clear everything";b.classList.remove("warn")},4000);return}
+  try{localStorage.removeItem(KEY)}catch(e){}
+  location.reload();
+});
+renderSteps();update();
+})();
+</script>
+</body>
+</html>
